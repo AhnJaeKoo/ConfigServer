@@ -1,0 +1,67 @@
+spring:     
+  devtools:
+    livereload:
+      enabled: false   
+  application:
+    name: confsvr
+  cloud:
+    config:
+      server:        
+        git:
+          uri: ssh://
+          ignore-local-ssh-settings: true
+          search-paths: 
+          - src/main/resources/config          
+          private-key: |
+                        -----BEGIN RSA PRIVATE KEY-----
+                        
+                        -----END RSA PRIVATE KEY-----        
+        encrypt:
+          enabled: false # 주요정보 암호화 후 보여줄때 복호화 안함..client에서 복호화 필요
+      enabled: true
+          
+server:
+  port: 11000 #---스프링 클라우드 컨피그 서버가 수신 대기하는 포트
+  servlet:
+    context-path: /conf
+
+encrypt:
+  key: # 암호화 키  
+  
+eureka:
+  instance:
+    prefer-ip-address: true # 서버 이름이 아닌 서비스 IP를 등록합니다.
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+
+# actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    
+---  
+spring:
+  config:
+    activate:
+      on-profile:
+      - local
+
+eureka:  
+  client:    
+    service-url:
+      defaultZone: http://localhost:10000/eureka/,http://localhost:10001/eureka/
+      
+---
+spring:
+  config:
+    activate:
+      on-profile:
+      - prod
+      
+eureka:  
+  client:    
+    service-url:
+      defaultZone: http://gm-cloud1:10000/eureka/,http://gm-cloud2:10000/eureka/

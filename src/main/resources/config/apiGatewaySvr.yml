@@ -1,0 +1,89 @@
+eureka:
+  instance:
+    prefer-ip-address: true # 서버 이름이 아닌 서비스 IP를 등록합니다.
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    
+# actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+---
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true # netflix eureka 검색 서비스 사용
+      routes:        
+        - id: gmJca          
+          uri: lb://GMJCA # Eureka 등록 서비스 명으로 호출                            
+          predicates:
+            - Path=/gmJca/** # 해당 gateway 서버의 /gmJca/**로 들어오는 요청은 lb://GMJCA로 인식하겠다는 조건
+#          filters:
+#          - StripPrefix=1    
+#          filters:
+#            - RewritePath=/gmJca/(?<path>.*), /$\{path}  #gmJca 제거 후 route
+        - id: conf          
+          uri: lb://CONFSVR                      
+          predicates:
+            - Path=/conf/**
+        - id: eureka          
+          uri: lb://EUREKASERVER        
+          predicates:
+            - Path=/eureka/**
+        - id: brndMkrSync          
+          uri: lb://BRNDMKRSYNC        
+          predicates:
+            - Path=/brndMkrSync/**
+        - id: plSyncSvc-main
+          uri: lb://PLSYNCSVC-MAIN
+          predicates:
+            - Path=/plSyncSvc/job/main**
+        - id: plSyncSvc-eloc
+          uri: lb://PLSYNCSVC-ELOC
+          predicates:
+            - Path=/plSyncSvc/job/eloc**
+        - id: brndMkrModelMatching
+          uri: lb://BRNDMKRMODELMATCHING
+          predicates:
+            - Path=/brndMkrModelMatching/**
+                              
+#route 설정정보 웹페이지에 노출 - http://localhost:8084/actuator/gateway/routes
+management:
+    endpoints:
+        web:
+          exposure:
+            include:
+              - "gateway"
+    endpoint:
+        gateway:
+            enabled: true
+
+---  
+spring:
+  config:
+    activate:
+      on-profile:
+      - local
+
+eureka:  
+  client:    
+    service-url:
+      defaultZone: http://localhost:10000/eureka/,http://localhost:10001/eureka/
+      
+---
+spring:
+  config:
+    activate:
+      on-profile:
+      - prod
+      
+eureka:  
+  client:    
+    service-url:
+      defaultZone: http://gm-cloud1:10000/eureka/,http://gm-cloud2:10000/eureka/

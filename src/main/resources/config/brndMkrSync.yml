@@ -1,0 +1,15 @@
+server:
+  port: 20700
+  tomcat:
+    additional-tld-skip-patterns: "*.jar"    # 구동시 Failed to scan orai18n-mapping.jar from classloader hierarchy 경고 문제로 인해 톰캣의 scan skip
+
+---
+spring: 
+  batch:
+    chunk-size: 10000
+    job:      
+      names: ${job.name:NONE} # 시작 job 받아옴
+  profiles:
+    include:
+    - common-jdbc
+    - common-msa 

@@ -1,0 +1,377 @@
+spring:
+  jpa:
+    open-in-view: false #OSIV는 성능 및 확장 성 측면에서 안좋다. false    
+    
+  data-source-config:    
+    batch:
+      jpa:
+        property:
+          hibernate:            
+            database: postgresql
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+            show_sql: true
+            format_sql: true
+            use_sql_comments: true      
+            ddl-auto: update
+            physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy 
+            implicit_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+  
+    main:
+      jpa:
+        property:
+          hibernate:            
+            database: oracle
+            dialect: org.hibernate.dialect.Oracle10gDialect
+            show_sql: true      
+            format_sql: true
+            use_sql_comments: true      
+            ddl-auto: validate
+            physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy 
+            implicit_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    eloc:
+      jpa:
+        property:
+          hibernate:            
+            database: mssql
+            dialect: org.hibernate.dialect.SQLServer2012Dialect
+            #dialect: com.enuri.gm.jca.core.dialect.SQLServerDialectCustom
+            show_sql: true       
+            format_sql: true
+            use_sql_comments: true     
+            ddl-auto: validate
+            physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+            implicit_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+            
+    epmondb:
+      jpa:
+        property:
+          hibernate:            
+            database: postgresql
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+            show_sql: false
+            format_sql: false
+            use_sql_comments: false      
+            ddl-auto: update
+            physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy 
+            implicit_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+            
+    diff:
+      jpa:
+        property:
+          hibernate:
+            database: postgresql
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+            show_sql: true
+            format_sql: true
+            use_sql_comments: true      
+            ddl-auto: validate
+            physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy 
+            implicit_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+            
+    delay:
+      jpa:
+        property:
+          hibernate:
+            database: postgresql
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+            show_sql: true
+            format_sql: true
+            use_sql_comments: true      
+            ddl-auto: validate
+            physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy 
+            implicit_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy  
+            
+    pgpl:
+      jpa:
+        property:
+          hibernate:
+            database: postgresql
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+            show_sql: true
+            format_sql: true
+            use_sql_comments: true      
+            ddl-auto: validate
+            physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy 
+            implicit_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+---
+#DataSource local
+spring:
+  config:
+    activate:
+      on-profile:
+      - local
+       
+  data-source-config:   
+    batch:         
+      datasource:
+        hikari:
+          jdbc-url: jdbc:postgresql://
+          driver-class-name: org.postgresql.Driver
+          username: 
+          password: '{cipher}'
+          maximum-pool-size: 10
+          minimum-idle : 10
+          connection-timeout: 30000
+          max-lifetime : 1800000 #30분
+           
+    main:      
+      datasource:
+        hikari:
+          platform: oracle
+          jdbc-url: jdbc:oracle:thin:@
+          driver-class-name: oracle.jdbc.OracleDriver
+          username: 
+          password: '{cipher}' 
+          maximum-pool-size: 3
+          minimum-idle : 3
+          connection-timeout: 30000
+          max-lifetime : 1800000 #30분
+    
+    eloc:     
+      datasource:   
+        hikari:
+          platform: sqlserver
+          jdbc-url: jdbc:sqlserver://
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+          username: 
+          password: '{cipher}' 
+          maximum-pool-size: 10
+          minimum-idle : 10
+          connection-timeout: 30000
+          max-lifetime : 1800000 #30분
+    
+    epmondb:      
+      datasource:
+        hikari:
+          jdbc-url: jdbc:postgresql://
+          driver-class-name: org.postgresql.Driver
+          username: 
+          password: '{cipher}'
+          maximum-pool-size: 10
+          minimum-idle : 10
+          connection-timeout: 10000          
+          max-lifetime : 1800000 #30분 
+          
+    main-chkapp:      
+      datasource:
+        hikari:
+          platform: oracle
+          jdbc-url: jdbc:oracle:thin:@
+          driver-class-name: oracle.jdbc.OracleDriver
+          username: 
+          password: '{cipher}' 
+          maximum-pool-size: 3
+          minimum-idle : 3
+          connection-timeout: 30000
+          max-lifetime : 1800000 #30분
+    
+    eloc-chkapp:     
+      datasource:   
+        hikari:
+          platform: sqlserver
+          jdbc-url: jdbc:sqlserver://
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+          username: 
+          password: '{cipher}' 
+          maximum-pool-size: 10
+          minimum-idle : 10
+          connection-timeout: 30000
+          max-lifetime : 1800000 #30분 
+          
+    diff:
+      datasource:
+        hikari:
+          jdbc-url: jdbc:postgresql://
+          driver-class-name: org.postgresql.Driver
+          username: 
+          password: '{cipher}'
+          maximum-pool-size: 10
+          minimum-idle : 10
+          connection-timeout: 30000
+          max-lifetime : 1800000 #30분
+          
+    delay:      
+      datasource:
+        hikari:
+          jdbc-url: jdbc:postgresql://
+          driver-class-name: org.postgresql.Driver
+          username: 
+          password: '{cipher}'
+          maximum-pool-size: 10
+          minimum-idle : 10
+          connection-timeout: 30000
+          max-lifetime : 1800000 #30분
+          
+    pgpl:   
+      datasource:
+        hikari:
+          jdbc-url: jdbc:postgresql://
+          driver-class-name: org.postgresql.Driver
+          username: 
+          password: '{cipher}'
+          maximum-pool-size: 10
+          minimum-idle : 10
+          connection-timeout: 30000
+          max-lifetime : 1800000 #30분
+          
+    hbase:         
+      datasource:        
+          jdbc-url: jdbc:phoenix:thin:url=http://
+          driver-class-name: org.apache.phoenix.queryserver.client.Driver
+          username: 
+          password: '{cipher}'
+          #maximum-pool-size: 10
+          #minimum-idle : 10
+          #connection-timeout: 30000
+          #max-lifetime : 1800000 #30분
+          
+#JPA sql log parameter view
+logging:
+  level:
+    org:
+      hibernate:        
+        type:  
+          descriptor:
+            sql:
+              BasicBinder: TRACE     
+---
+#DataSource prod
+spring:  
+  config:
+    activate:
+      on-profile:
+      - prod 
+    
+  data-source-config:   
+    batch:      
+      datasource:
+        hikari:
+          jdbc-url: jdbc:postgresql://
+          driver-class-name: org.postgresql.Driver
+          username: 
+          password: '{cipher}'
+          maximum-pool-size: 10
+          minimum-idle : 10
+          connection-timeout: 30000
+          max-lifetime : 1800000 
+  
+    main:      
+      datasource:
+        hikari:
+          platform: oracle
+          jdbc-url: jdbc:oracle:thin:@
+          driver-class-name: oracle.jdbc.OracleDriver
+          username: 
+          password: '{cipher}'
+          maximum-pool-size: 3
+          minimum-idle : 3
+          connection-timeout: 30000
+          max-lifetime : 1800000 
+              
+    eloc:       
+      datasource:   
+        hikari:
+          platform: sqlserver
+          jdbc-url: jdbc:sqlserver://
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+          username: 
+          password: '{cipher}'
+          maximum-pool-size: 10
+          minimum-idle : 10
+          connection-timeout: 30000
+          max-lifetime : 1800000 #30분  
+          
+    epmondb:      
+      datasource:
+        hikari:
+          jdbc-url: jdbc:postgresql://192.168.213.71:5432/epmondb?currentSchema=dbenuri
+          driver-class-name: org.postgresql.Driver
+          username: postgres
+          password: '{cipher}aeddc8f2f25e4a3bcb389a41dd231b1e67b9d7770899f9d0e247fa2ce4883f8a'
+          maximum-pool-size: 10
+          minimum-idle : 10
+          connection-timeout: 10000          
+          max-lifetime : 1800000 #30분 
+          
+    main-chkapp:      
+      datasource:
+        hikari:
+          platform: oracle
+          jdbc-url: jdbc:oracle:thin:@
+          driver-class-name: oracle.jdbc.OracleDriver
+          username:            
+          password: '{cipher}'
+          maximum-pool-size: 3 
+          minimum-idle : 3
+          connection-timeout: 30000
+          max-lifetime : 1800000 
+              
+    eloc-chkapp:       
+      datasource:   
+        hikari:
+          platform: sqlserver
+          jdbc-url: jdbc:sqlserver://
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+          username: 
+          password: '{cipher}'
+          maximum-pool-size: 5
+          minimum-idle : 5
+          connection-timeout: 30000
+          max-lifetime : 1800000 #30분    
+
+    diff:
+      datasource:
+        hikari:
+          jdbc-url: jdbc:postgresql://
+          driver-class-name: org.postgresql.Driver
+          username: 
+          password: '{cipher}'
+          maximum-pool-size: 10
+          minimum-idle : 10
+          connection-timeout: 30000
+          max-lifetime : 1800000 #30분
+          
+    delay:      
+      datasource:
+        hikari:
+          jdbc-url: jdbc:postgresql://
+          driver-class-name: org.postgresql.Driver
+          username: 
+          password: '{cipher}'
+          maximum-pool-size: 10
+          minimum-idle : 10
+          connection-timeout: 30000
+          max-lifetime : 1800000 #30분
+          
+    pgpl:   
+      datasource:
+        hikari:
+          jdbc-url: jdbc:postgresql://
+          driver-class-name: org.postgresql.Driver
+          username: 
+          password: '{cipher}'
+          maximum-pool-size: 10
+          minimum-idle : 10
+          connection-timeout: 30000
+          max-lifetime : 1800000 #30분
+    
+    hbase:         
+      datasource:        
+          jdbc-url: jdbc:phoenix:thin:url=http://
+          driver-class-name: org.apache.phoenix.queryserver.client.Driver
+          username: 
+          password: '{cipher}'
+          #maximum-pool-size: 10
+          #minimum-idle : 10
+          #connection-timeout: 30000
+          #max-lifetime : 1800000 #30분  
+          
+#JPA sql log parameter view
+logging:
+  level:
+    org:
+      hibernate:        
+        type:  
+          descriptor:
+            sql:
+              BasicBinder: INFO     

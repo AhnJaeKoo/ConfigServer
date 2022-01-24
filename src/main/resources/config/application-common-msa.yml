@@ -1,0 +1,51 @@
+# actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+---
+spring:   
+  sleuth:
+    sampler:
+      probability: 1.0 # 기본값 0.1  샘플링 정의 0~1(100%)
+---
+#DataSource local
+spring:
+  config:
+    activate:
+      on-profile:
+      - local  
+  zipkin:
+    base-url: http://localhost:9411/
+          
+eureka: 
+  instance:
+    preferIpAddress: true   # 서비스 이름 대신 서비스 IP 주소 등록
+    ip-address: 10.10.10.219
+  client:  
+    register-with-eureka: true   # 유레카에 서비스 등록
+    fetch-registry: true        # client 서비스가 eureka 서버로 부터 서비스 리스트 정보를 local에 cachin
+    service-url:
+      defaultZone: http://localhost:10000/eureka/,http://localhost:10001/eureka/         
+          
+---
+#DataSource prod
+spring:  
+  config:
+    activate:
+      on-profile:
+      - prod
+  zipkin:
+    base-url: http://192.168.213.82:9411/
+            
+eureka: 
+  instance:
+    preferIpAddress: true   # 서비스 이름 대신 서비스 IP 주소 등록
+    ip-address: 192.168.213.82
+  client:  
+    register-with-eureka: true   # 유레카에 서비스 등록
+    fetch-registry: true         # client 서비스가 eureka 서버로 부터 서비스 리스트 정보를 local에 cachin
+    service-url:
+      defaultZone: http://192.168.213.82:8084/eureka/ #http://gm-cloud1:10000/eureka/, http://gm-cloud2:10000/eureka/

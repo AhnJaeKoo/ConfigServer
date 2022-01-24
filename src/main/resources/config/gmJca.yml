@@ -1,0 +1,45 @@
+spring:
+  #devtools
+  devtools:
+    restart:
+      enabled: false  # 수정시 자동 재구동 - spring loaded로 인해 false 처리  
+  test:
+    database:
+      replace: NONE #테스트 끝나면 자동 롤백
+  
+  #jsp 설정
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+      
+  profiles:
+    include:
+    - common-jdbc
+    - common-msa
+
+server:
+  port: 20000
+  tomcat:
+    additional-tld-skip-patterns: "*.jar"    # 구동시 Failed to scan orai18n-mapping.jar from classloader hierarchy 경고 문제로 인해 톰캣의 scan skip
+    
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        failureRateThreshold: 50  #실패율(failure ratio) threshold퍼센트 값
+        slowCallRateThreshold: 100  #지연된 응답(failure ratio) threshold 퍼센트 값
+        slowCallDurationThreshold: 60000 #요청이 느린 것으로 간주되는 기간[ms]
+        permittedNumberOfCallsInHalfOpenState: 4 #Half-open 상태에서 허가된 요청 수
+        maxWaitDurationInHalfOpenState: 1000 #Half-open 상태에서 대기할 수 있는 최대 시간으로 모든 허가된 요청이 완료될 때까지 0은 무한정 기다리는 것을 의미한다.
+        slidingWindowType: COUNT_BASED  #COUNT_BASED 또는 TIME_BASED로 호출의 결과를 저장하고 집계하기 위한 슬라이딩 윈도의 타입
+        slidingWindowSize: 10 #서킷의 상태가 CLOSED일 때 요청의 결과를 기록하기 위한 슬라이딩 윈도의 크기
+        minimumNumberOfCalls: 10 #서킷이 실패율(failure rate) 또는 지연된 응답(slow call rate)을 계산하기 전 요구되는 최소 요청의 수
+        waitDurationInOpenState: 10000  #서킷이 OPEN 에서 Half-open으로 변경되기 전 대기하는 시간 (이 시간 이후 변경된다.)
+    instances:      
+      default: # 회로 차단패턴 적용할 name
+        baseConfig: default
+        
+# 템플릿 엔진에서 사용할 템플릿 파일 경로
+templates:
+  velocity-path: templates/velocity/
