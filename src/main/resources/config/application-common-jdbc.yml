@@ -287,7 +287,7 @@ spring:
           jdbc-url: jdbc:postgresql://:5432/epmondb?currentSchema=dbenuri
           driver-class-name: org.postgresql.Driver
           username: postgres
-          password: '{cipher}aeddc8f2f25e4a3bcb389a41dd231b1e67b9d7770899f9d0e247fa2ce4883f8a'
+          password: '{cipher}'
           maximum-pool-size: 10
           minimum-idle : 10
           connection-timeout: 10000          
